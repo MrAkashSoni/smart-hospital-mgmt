@@ -5,7 +5,7 @@ body {
 }
 
 main {
-  min-height: 80vh;
+  min-height: 100vh;
   background-color: #F6F6F6;
 }
 
@@ -93,8 +93,9 @@ select.form-select:focus {
 /* Sidebar */
 .sidebar {
   width: 325px;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #F6F7FC;
+  height: 100%;
 }
 
 .logo-box {
@@ -803,11 +804,14 @@ body.dark-mode main {
 .dark-mode .sub-menu li.active-menu a,
 .dark-mode .sidebar-menu-list.nav .nav-item .nav-link:hover svg,
 .dark-mode .sidebar-menu-list.nav .nav-item .nav-link:hover span,
+.dark-mode .notification-header a,
+.dark-mode .notification-popup-footer a,
 .dark-mode .table-title {
   color: #fff;
 }
 
 .dark-mode .sub-menu li.active-menu a:before,
+
 .dark-mode .sub-menu li:hover a::before {
   background-color: #fff;
 }
@@ -824,6 +828,8 @@ body.dark-mode main {
 .dark-mode .create-box,
 .dark-mode .right-icon,
 .dark-mode .select-icon,
+.dark-mode .notification-header,
+.dark-mode .notification-popup-footer,
 .dark-mode .chart-box{
   background-color: #1F2937;
 }
