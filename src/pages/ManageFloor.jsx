@@ -1,10 +1,29 @@
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Table } from 'react-bootstrap';
-import Header from '../components/Header'
-import Meta from '../components/Meta'
+import { useDispatch, useSelector } from 'react-redux';
+import { addFloor, getAllFloor } from '../actions/floor';
 
 const ManageFloor = () => {
-  // page content
+  const dispatch = useDispatch();
 
+  const { loading, floors } = useSelector(state => state?.floorReducer);
+
+  const [data, setData] = useState({
+    total_floors: "0",
+    hospital_id: "1"
+  });
+
+  useEffect(() => {
+    dispatch(getAllFloor())
+  }, [])
+
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  }
+
+  const handleSubmit = () => {
+    dispatch(addFloor(data));
+  }
 
   return (
     <div className='dashboard-content-box'>
@@ -17,15 +36,12 @@ const ManageFloor = () => {
             <div className='create-box-body'>
               <div className='create-box-fields'>
                 <Form.Group className="mb-3" controlId="">
-                  <Form.Control type="number" placeholder="Floor No." />
-                </Form.Group>
-                <Form.Group className="mb-4" controlId="">
-                  <Form.Control type="text" placeholder="Floor Name" />
+                  <Form.Control type="number" placeholder="Total Floors" name='total_floors' onChange={handleChange} />
                 </Form.Group>
               </div>
             </div>
             <div className='create-box-footer'>
-              <Button className="btn-blue">Create</Button>
+              <Button className="btn-blue" onClick={handleSubmit} disabled={loading}>Create</Button>
             </div>
           </div>
         </Col>
@@ -45,38 +61,19 @@ const ManageFloor = () => {
             </div>
             <div className="dashboard-table">
               <Table striped bordered hover>
-                <thead>
+                < thead >
                   <tr>
                     <th>#</th>
-                    <th>Task Action</th>
-                    <th>Patient Name</th>
-                    <th>Date / Time</th>
-                    <th>Priority</th>
-                    <th>Action</th>
+                    <th>Total Floors</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <div className="task-action-box">
-                        <div></div>
-                      </div>
-                    </td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td colSpan={2}>Larry the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
+                  {floors && floors.length > 0 && floors.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.id}</td>
+                      <td>{item.total_floors}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </div>

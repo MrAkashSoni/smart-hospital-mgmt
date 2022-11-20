@@ -12,14 +12,20 @@ import userImage from "../images/user-image.jpg"
 import userImage1 from "../images/user-image-1.jpg"
 import bath from "../images/bath.svg"
 import { useEffect, useState } from 'react'
-const Header = ({ head, description,sidebarToggle }) => {
-  const [isDarkMode,setDarkMode]=useState(false)
-  useEffect(()=>{
+import { Link, useNavigate } from 'react-router-dom'
+
+const Header = ({ head, description, sidebarToggle }) => {
+
+  const navigate = useNavigate();
+  const [isDarkMode, setDarkMode] = useState(false)
+
+  useEffect(() => {
     console.log(isDarkMode)
-    if (isDarkMode)document.body.classList.add('dark-mode');
+    if (isDarkMode) document.body.classList.add('dark-mode');
     else document.body.classList.remove('dark-mode');
-    localStorage.setItem("dark-mode",isDarkMode)
-  },[isDarkMode])
+    localStorage.setItem("dark-mode", isDarkMode)
+  }, [isDarkMode])
+
   return (
     <>
       <div className='header'>
@@ -45,7 +51,7 @@ const Header = ({ head, description,sidebarToggle }) => {
               id="custom-switch"
               label=""
               checked={isDarkMode}
-              onChange={()=>setDarkMode(!isDarkMode)}
+              onChange={() => setDarkMode(!isDarkMode)}
             />
           </Form>
           <Dropdown>
@@ -57,8 +63,8 @@ const Header = ({ head, description,sidebarToggle }) => {
             <Dropdown.Menu className='notification-dropdown'>
               <div className='notification-popup'>
                 <div className='notification-header'>
-                  <a href="#">Notifications</a>
-                  <a href="#">Mark all as read</a>
+                  <Link to="/">Notifications</Link>
+                  <Link to="/">Mark all as read</Link>
                 </div>
                 <div className='notification-popup-body'>
                   <div className='user-box'>
@@ -91,7 +97,7 @@ const Header = ({ head, description,sidebarToggle }) => {
                         <span>Bed No. 3 | Ward No. 2</span>
                       </div>
                     </div>
-                    <div className='right-side'>
+                    <div className='right-side mark-as-done'>
                       <a href="#"><AiOutlineCheck /></a>
                     </div>
                   </div>
@@ -115,8 +121,8 @@ const Header = ({ head, description,sidebarToggle }) => {
               </div>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1"><FiSettings /> Settings</Dropdown.Item>
-              <Dropdown.Item href="#/action-2"><RiLogoutBoxLine /> Log Out</Dropdown.Item>
+              <Dropdown.Item onClick={() => navigate('/setting')}><FiSettings /> Settings</Dropdown.Item>
+              <Dropdown.Item onClick={() => { }}><RiLogoutBoxLine /> Log Out</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>

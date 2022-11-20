@@ -102,6 +102,8 @@ select.form-select:focus {
   background-color: #623CE7;
   padding: 19px;
   height: 91.89px;
+  width: 100%;
+  display: inline-block;
 }
 
 .sidebar-menu-list.nav {
@@ -612,6 +614,17 @@ span.card-number-item {
   /* padding: 18px 14px 31px 22px; */
 }
 
+.mark-as-done a {
+  background: #623ce7 !important;
+  border-color: #623ce7 !important;
+  color: #fff !important;
+}
+
+
+
+
+
+
 .user-active-time {
   flex: 1 1 100%;
 }
@@ -830,7 +843,7 @@ body.dark-mode main {
 .dark-mode .select-icon,
 .dark-mode .notification-header,
 .dark-mode .notification-popup-footer,
-.dark-mode .chart-box{
+.dark-mode .chart-box {
   background-color: #1F2937;
 }
 
@@ -854,10 +867,12 @@ body.dark-mode main {
   .card-item img {
     width: 19%;
   }
-  .user-list{
+
+  .user-list {
     margin-top: 30px;
   }
-  .create-box{
+
+  .create-box {
     margin-bottom: 30px;
   }
 }

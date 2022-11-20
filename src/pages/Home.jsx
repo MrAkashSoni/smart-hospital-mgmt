@@ -18,6 +18,7 @@ import bath from "../images/bath.svg"
 
 import { GoCalendar } from "@react-icons/all-files/go/GoCalendar"
 import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck"
+import CustomToast from '../components/Toast'
 
 const Home = () => {
   // page content
@@ -33,6 +34,7 @@ const Home = () => {
               <Col lg={12}>
                 <div className='chart-box mt-0'>
                   <div className='chart-box-header'>
+                    <CustomToast />
                     <h3>Activity Chart</h3>
                     <div>
                       <Form>
@@ -101,7 +103,7 @@ const Home = () => {
                     <span>Bed No. 3 | Ward No. 2</span>
                   </div>
                 </div>
-                <div className='right-side'>
+                <div className='right-side mark-as-done'>
                   <a href="#"><AiOutlineCheck /></a>
                 </div>
               </div>
@@ -121,7 +123,7 @@ const Home = () => {
                     <span>Bed No. 3 | Ward No. 2</span>
                   </div>
                 </div>
-                <div className='right-side'>
+                <div className='right-side '>
                   <a href="#"><AiOutlineCheck /></a>
                 </div>
               </div>
@@ -193,4 +195,4 @@ const Home = () => {
   )
 }
 
-export default Home 
+export default Home;

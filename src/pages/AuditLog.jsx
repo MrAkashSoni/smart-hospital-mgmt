@@ -3,8 +3,6 @@ import { Button, Col, Form, Row, Table } from "react-bootstrap";
 
 const AuditLog = () => {
 
-
-
     return (
         <div className="dashboard-content-box">
             <Row>
@@ -20,7 +18,7 @@ const AuditLog = () => {
                                         <Form.Control type="date" placeholder="" />
                                         {/* <GoCalendar/> */}
                                     </Form.Group>
-                                    
+
                                     <Button className='btn btn-blue search-btn ms-3' variant=''>
                                         Search
                                     </Button>
@@ -66,7 +64,7 @@ const AuditLog = () => {
                         </div>
                     </div>
                 </Col>
-            </Row> 
+            </Row>
         </div>
     )
 }
