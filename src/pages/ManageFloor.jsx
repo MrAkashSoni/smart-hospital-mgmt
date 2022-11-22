@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Row, Table } from 'react-bootstrap';
+import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFloor, getAllFloor } from '../actions/floor';
 
@@ -36,12 +36,21 @@ const ManageFloor = () => {
             <div className='create-box-body'>
               <div className='create-box-fields'>
                 <Form.Group className="mb-3" controlId="">
-                  <Form.Control type="number" placeholder="Total Floors" name='total_floors' onChange={handleChange} />
+                  <Form.Control type="number" placeholder="Total Floors" name='total_floors' value={data.total_floors} onChange={handleChange} />
                 </Form.Group>
               </div>
             </div>
             <div className='create-box-footer'>
-              <Button className="btn-blue" onClick={handleSubmit} disabled={loading}>Create</Button>
+              <Button className="btn-blue" onClick={handleSubmit} disabled={loading}>
+                {loading && <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />}
+                {"  "}Create
+              </Button>
             </div>
           </div>
         </Col>

@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react';
-import { Button, Col, Form, Row, Table } from 'react-bootstrap';
+import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { addWard, getAllWard } from '../actions/ward';
+import { addWard, deleteWard, editWard, getAllWard } from '../actions/ward';
+
+const initialData = {
+    id: null,
+    floor: "1",
+    ward_name: "OPD",
+    ward_desc: "Medium",
+    led: "True",
+    hospital_id: "1"
+}
 
 const ManageWard = () => {
     const dispatch = useDispatch();
 
     const { loading, wards } = useSelector(state => state?.wardReducer);
 
-    const [data, setData] = useState({
-        floor: "1",
-        ward_name: "OPD",
-        ward_desc: "Medium",
-        led: "True",
-        hospital_id: "1"
-    });
+    const [data, setData] = useState(initialData);
+    const [editIndex, setEditIndex] = useState(null);
 
     useEffect(() => {
         dispatch(getAllWard())
@@ -25,7 +29,18 @@ const ManageWard = () => {
     }
 
     const handleSubmit = () => {
-        dispatch(addWard(data));
+        dispatch(editIndex ? editWard(editIndex, data) : addWard(data));
+        setEditIndex(false);
+    }
+
+    const handleEdit = (index) => {
+        console.log('wards', wards[index]);
+        setEditIndex(index);
+        setData(wards[index]);
+    }
+
+    const handleDelete = (id, index) => {
+        dispatch(deleteWard(id, index));
     }
 
     return (
@@ -39,21 +54,30 @@ const ManageWard = () => {
                         <div className='create-box-body'>
                             <div className='create-box-fields'>
                                 <Form.Group className="mb-3" controlId="">
-                                    <Form.Control type="text" placeholder="Ward Name" name="ward_name" onChange={handleChange} />
+                                    <Form.Control type="text" placeholder="Ward Name" name="ward_name" value={data.ward_name} onChange={handleChange} />
                                 </Form.Group>
                                 <Form.Select aria-label="Default select example" className='select-floor mb-4' name="floor" onChange={handleChange}>
                                     <option>Select Floor</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option selected={data.floor === "1"} value="1">One</option>
+                                    <option selected={data.floor === "2"} value="2">Two</option>
+                                    <option selected={data.floor === "3"} value="3">Three</option>
                                 </Form.Select>
                                 <Form.Group className="mb-3" controlId="">
-                                    <Form.Control type="text" placeholder="LED Serial" name="led" onChange={handleChange} />
+                                    <Form.Control type="text" placeholder="LED Serial" name="led" value={data.led} onChange={handleChange} />
                                 </Form.Group>
                             </div>
                         </div>
                         <div className='create-box-footer'>
-                            <Button className="btn-blue" onClick={handleSubmit} disabled={loading}>Create</Button>
+                            <Button className="btn-blue" onClick={handleSubmit} disabled={loading}>
+                                {loading && <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                />}
+                                {"  "}Create
+                            </Button>
                         </div>
                     </div>
                 </Col>
@@ -88,6 +112,8 @@ const ManageWard = () => {
                                             <td>{item.ward_name}</td>
                                             <td>{item.floor}</td>
                                             <td>{item.led}</td>
+                                            <td style={{ color: 'blue', cursor: 'pointer' }} onClick={() => handleEdit(index)}>Edit</td>
+                                            <td style={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDelete(item.id, index)}>Delete</td>
                                         </tr>
                                     ))}
                                 </tbody>

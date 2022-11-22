@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Col, Form, Row, Table } from 'react-bootstrap';
+import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { addBed, getAllBed } from '../actions/bed';
 
@@ -59,7 +59,16 @@ const ManageBed = () => {
                             </div>
                         </div>
                         <div className='create-box-footer'>
-                            <Button className="btn-blue" onClick={handleSubmit} disabled={loading}>Create</Button>
+                            <Button className="btn-blue" onClick={handleSubmit} disabled={loading}>
+                                {loading && <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                />}
+                                {"  "}Create
+                            </Button>
                         </div>
                     </div>
                 </Col>

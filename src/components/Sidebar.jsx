@@ -8,11 +8,12 @@ import { BsListTask } from "@react-icons/all-files/bs/BsListTask"
 import { FaRegHospital } from "@react-icons/all-files/fa/FaRegHospital"
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Sidebar = ({ sidebarOpen }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { pathname } = useLocation();
 
 	const [activeId, setActiveId] = useState(1);
 
@@ -43,7 +44,7 @@ const Sidebar = ({ sidebarOpen }) => {
 							</li>
 							<li className={activeId == 2 ? "active-nav" : ""} onClick={() => setActiveId(2)}>
 								<Nav.Item>
-									<Nav.Link onClick={() => navigate("/")}>
+									<Nav.Link>
 										<div>
 											<span className="left-icon"><FaRegHospital /></span>
 											<span className="nav-text">Hospital</span>
@@ -52,22 +53,22 @@ const Sidebar = ({ sidebarOpen }) => {
 									</Nav.Link>
 								</Nav.Item>
 								<ul className="sub-menu hospital-sub-menu">
-									<li className="active-menu">
+									<li className={pathname === "/managefloor" ? "active-menu" : ""}>
 										<Link to="/managefloor">
 											Manage Floor
 										</Link>
 									</li>
-									<li>
+									<li className={pathname === "/manageward" ? "active-menu" : ""}>
 										<Link to="/manageward">
 											Manage Ward
 										</Link>
 									</li>
-									<li>
+									<li className={pathname === "/managebed" ? "active-menu" : ""}>
 										<Link to="/managebed">
 											Manage Bed
 										</Link>
 									</li>
-									<li>
+									<li className={pathname === "/manageaction" ? "active-menu" : ""}>
 										<Link to="/manageaction">
 											Manage Action
 										</Link>

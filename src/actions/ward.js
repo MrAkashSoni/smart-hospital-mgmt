@@ -1,5 +1,5 @@
 import axios from "../apis/axiosConfig";
-import { ADD_WARD, GET_ALL_WARD } from "../apis/endpoints";
+import { ACCESS_SINGLE_WARD, ADD_WARD, GET_ALL_WARD } from "../apis/endpoints";
 
 export const addWard = (payload) => {
     return async (dispatch) => {
@@ -21,6 +21,31 @@ export const getAllWard = () => {
             dispatch({ type: 'SUCCESS_GET_ALL_WARD', payload: response?.data });
         } catch (e) {
             dispatch({ type: 'FAILURE_GET_ALL_WARD' });
+        }
+    };
+}
+
+export const editWard = (index, payload) => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: 'REQUEST_EDIT_WARD' });
+            const response = await axios.put(ACCESS_SINGLE_WARD.replace("{{id}}", payload.id), { ...payload })
+            console.log('response', response)
+            dispatch({ type: 'SUCCESS_EDIT_WARD', payload: { index, ...response?.data } });
+        } catch (e) {
+            dispatch({ type: 'FAILURE_EDIT_WARD' });
+        }
+    };
+}
+
+export const deleteWard = (id, index) => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: 'REQUEST_DELETE_WARD' });
+            const response = await axios.delete(ACCESS_SINGLE_WARD.replace("{{id}}", id))
+            dispatch({ type: 'SUCCESS_DELETE_WARD', payload: index });
+        } catch (e) {
+            dispatch({ type: 'FAILURE_DELETE_WARD' });
         }
     };
 }

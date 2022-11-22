@@ -6,7 +6,7 @@ export const GET_SINGLE_FLOOR = "hospital/accessSingleHospitalFloors/{{id}}";
 
 export const ADD_WARD = "hospital/addWard/";
 export const GET_ALL_WARD = "hospital/allHospitalWards/";
-export const GET_SINGLE_WARD = "hospital/accessSingleHospitalWards/{{id}}";
+export const ACCESS_SINGLE_WARD = "hospital/accessSingleHospitalWards/{{id}}";
 
 export const ADD_BED = "hospital/addBed/";
 export const GET_ALL_BED = "hospital/allHospitalBeds/";
