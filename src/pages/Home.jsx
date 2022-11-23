@@ -20,7 +20,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 const Home = () => {
 
-  const client = new W3CWebSocket('ws://13.234.117.5:8000/ws/socket-notification/');
+  const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'ws://13.234.117.5:8000/ws/'}socket-notification/`);
 
   client.onopen = () => {
     console.log('WebSocket Client Connected');
