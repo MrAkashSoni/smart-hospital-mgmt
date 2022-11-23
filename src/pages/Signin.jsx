@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap'
+import { Button, Col, Form, Row, Spinner } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { userSignIn } from '../actions/signin'
@@ -18,7 +18,6 @@ const Signin = () => {
 
   const handleSubmit = async () => {
     const res = await dispatch(userSignIn(data));
-    console.log('res --> ', res);
     if (res) navigate("/");
   }
 
@@ -41,7 +40,16 @@ const Signin = () => {
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Control type="password" placeholder="Enter Password" name="password" onChange={handleChange} />
                 </Form.Group>
-                <Button onClick={handleSubmit} disabled={loading}>Sign In</Button>
+                <Button onClick={handleSubmit} disabled={loading}>
+                  {loading && <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />}
+                  Sign In
+                </Button>
               </Form>
             </div>
           </div>

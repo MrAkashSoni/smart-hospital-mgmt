@@ -1,5 +1,5 @@
 import axios from "axios";
-const apiBaseUrl = `https://hospital-mgmt-iot.herokuapp.com/api/` || process.env.REACT_APP_API_BASE_URL;
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || `http://13.234.117.5:8000/api/`;
 
 const axiosConfig = axios.create({
     baseURL: apiBaseUrl,

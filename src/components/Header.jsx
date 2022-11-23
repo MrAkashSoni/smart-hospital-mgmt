@@ -122,7 +122,10 @@ const Header = ({ head, description, sidebarToggle }) => {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item onClick={() => navigate('/setting')}><FiSettings /> Settings</Dropdown.Item>
-              <Dropdown.Item onClick={() => { }}><RiLogoutBoxLine /> Log Out</Dropdown.Item>
+              <Dropdown.Item onClick={() => {
+                localStorage.clear();
+                navigate("/signin")
+              }}><RiLogoutBoxLine /> Log Out</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>

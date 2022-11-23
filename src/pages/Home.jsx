@@ -1,7 +1,4 @@
-import { Col, Container, Form, Row } from 'react-bootstrap'
-import Header from '../components/Header'
-import Meta from '../components/Meta'
-
+import { Col, Form, Row } from 'react-bootstrap'
 import chart1 from "../images/chart-1.png"
 import chart2 from "../images/chart-2.png"
 import cardBath from "../images/card-bath.svg"
@@ -15,15 +12,22 @@ import userImage3 from "../images/user-image-3.png"
 import userImage4 from "../images/user-image-4.png"
 import userImage5 from "../images/user-image-5.png"
 import bath from "../images/bath.svg"
-
-import { GoCalendar } from "@react-icons/all-files/go/GoCalendar"
 import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck"
 import CustomToast from '../components/Toast'
 
+import { w3cwebsocket as W3CWebSocket } from "websocket";
+
+
 const Home = () => {
-  // page content
-  const pageTitle = 'Home'
-  const pageDescription = 'welcome to react bootstrap template'
+
+  const client = new W3CWebSocket('ws://13.234.117.5:8000/ws/socket-notification/');
+
+  client.onopen = () => {
+    console.log('WebSocket Client Connected');
+  };
+  client.onmessage = (response) => {
+    console.log('Socket data --> ', JSON.parse(response?.data));
+  };
 
   return (
     <>
