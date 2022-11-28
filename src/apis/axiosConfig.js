@@ -1,5 +1,5 @@
 import axios from "axios";
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || `http://13.234.117.5:8000/api/`;
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || `https://nurster.com/api/`;
 
 const axiosConfig = axios.create({
     baseURL: apiBaseUrl,
@@ -12,7 +12,6 @@ const axiosConfig = axios.create({
 axiosConfig.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("token");
-        console.log('token', token)
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         } else {

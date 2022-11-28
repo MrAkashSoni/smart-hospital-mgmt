@@ -6,7 +6,6 @@ export const userSignIn = (payload) => {
         try {
             dispatch({ type: 'REQUEST_SIGNIN' });
             const response = await axios.post(USER_SIGNIN, { ...payload });
-            console.log(response)
             localStorage.setItem('token', response?.data?.token?.access);
             dispatch({ type: 'SUCCESS_SIGNIN', payload: response });
             return true;

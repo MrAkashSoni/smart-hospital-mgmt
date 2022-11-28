@@ -1,6 +1,5 @@
 import { Col, Form, Row } from 'react-bootstrap'
 import chart1 from "../images/chart-1.png"
-import chart2 from "../images/chart-2.png"
 import cardBath from "../images/card-bath.svg"
 import cardBell from "../images/card-bell.svg"
 import cardWash from "../images/card-wash.svg"
@@ -14,20 +13,50 @@ import userImage5 from "../images/user-image-5.png"
 import bath from "../images/bath.svg"
 import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck"
 import CustomToast from '../components/Toast'
+import Chart from 'react-apexcharts'
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-
+import { useState } from 'react'
+import { callTypes } from '../common'
 
 const Home = () => {
 
+
+  const [notifications, setNotifications] = useState([]);
+
   const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'ws://13.234.117.5:8000/ws/'}socket-notification/`);
+
 
   client.onopen = () => {
     console.log('WebSocket Client Connected');
   };
   client.onmessage = (response) => {
-    console.log('Socket data --> ', JSON.parse(response?.data));
+    setNotifications([...notifications, JSON.parse(response?.data)?.message])
   };
+
+  const chartData = {
+    series: [10, 20, 30, 25, 10, 15],
+    options: {
+      chart: {
+        type: "donut",
+      },
+      colors: ["#165DFF", "#ce4097", "#50CD89", "#7239EA", "#FFC700", "#fd7e14"],
+      labels: ["Code Blue", "Nurse", "Food", "Washroom", "Medicine", "Light"],
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200,
+            height: 225,
+          },
+          legend: {
+            position: "bottom"
+          }
+        }
+      }]
+    },
+  };
+
 
   return (
     <>
@@ -61,18 +90,23 @@ const Home = () => {
 
                   </div>
                   <div className='chart-box-body'>
-                    <img src={chart2} alt="" className='img-fluid' />
+                    <Chart type='donut' options={chartData.options} series={chartData.series} height={223} />
                   </div>
                 </div>
               </Col>
               <Col lg={5} md={8}>
                 <div className='chart-box'>
-
                   <div className='chart-box-body'>
                     <div className='cards-box'>
                       <div className='card-item'>
-                        <img src={cardBath} alt="" />
+                        <img src={cardBell} alt="" />
                         <span className='card-number-item'>1</span>
+                      </div>
+                      <div className='card-item'>
+                        <img src={cardCloth} alt="" />
+                      </div>
+                      <div className='card-item'>
+                        <img src={cardBell} alt="" />
                       </div>
                       <div className='card-item'>
                         <img src={cardWash} alt="" />
@@ -81,7 +115,7 @@ const Home = () => {
                         <img src={cardBell} alt="" />
                       </div>
                       <div className='card-item'>
-                        <img src={cardCloth} alt="" />
+                        <img src={cardBath} alt="" />
                       </div>
                     </div>
                   </div>
@@ -91,106 +125,34 @@ const Home = () => {
           </Col>
           <Col lg={4} md={6}>
             <div className='user-list'>
-              <div className='user-box'>
-                <div className='user-active-time'>
-                  <span>2m Ago</span>
-                </div>
-                <div className='left-side'>
-                  <div className='user-image'>
-                    <img src={userImage1} alt="" />
+              {notifications.length > 0 ? notifications.map((item, index) => {
+                return (
+                  <div className='user-box' key={index}>
+                    <div className='user-active-time'>
+                      <span>{`{{time}} ago`}</span>
+                    </div>
+                    <div className='left-side'>
+                      <div className='user-image'>
+                        <img src={userImage1} alt="" />
+                      </div>
+                      <div>
+                        <h6>{`{{assigneeName}}`} <span className='badge badge-high'>{`{{priority}}`}</span> </h6>
+                        <p>Request For
+                          <img src={bath} alt="" />
+                          {(callTypes.find(call => call.event === item.event)).label}</p>
+                        <span>{`Bed No. ${item.bed_id} | Ward No. ${item.ward_id}`}</span>
+                      </div>
+                    </div>
+                    <div className='right-side mark-as-done'>
+                      <a href="#"><AiOutlineCheck /></a>
+                    </div>
                   </div>
-                  <div>
-                    <h6>Jenny Wilson <span className='badge badge-high'>High</span> </h6>
-                    <p>Request For
-                      <img src={bath} alt="" />
-                      Bath</p>
-                    <span>Bed No. 3 | Ward No. 2</span>
-                  </div>
-                </div>
-                <div className='right-side mark-as-done'>
-                  <a href="#"><AiOutlineCheck /></a>
-                </div>
-              </div>
-              <div className='user-box'>
-                <div className='user-active-time'>
-                  <span>2m Ago</span>
-                </div>
-                <div className='left-side'>
-                  <div className='user-image'>
-                    <img src={userImage2} alt="" />
-                  </div>
-                  <div>
-                    <h6>Jenny Wilson <span className='badge badge-low'>Low</span> </h6>
-                    <p>Request For
-                      <img src={bath} alt="" />
-                      Bath</p>
-                    <span>Bed No. 3 | Ward No. 2</span>
-                  </div>
-                </div>
-                <div className='right-side '>
-                  <a href="#"><AiOutlineCheck /></a>
-                </div>
-              </div>
-              <div className='user-box'>
-                <div className='user-active-time'>
-                  <span>2m Ago</span>
-                </div>
-                <div className='left-side'>
-                  <div className='user-image'>
-                    <img src={userImage3} alt="" />
-                  </div>
-                  <div>
-                    <h6>Jenny Wilson <span className='badge badge-medium'>Medium</span> </h6>
-                    <p>Request For
-                      <img src={bath} alt="" />
-                      Bath</p>
-                    <span>Bed No. 3 | Ward No. 2</span>
-                  </div>
-                </div>
-                <div className='right-side'>
-                  <a href="#"><AiOutlineCheck /></a>
-                </div>
-              </div>
-              <div className='user-box'>
-                <div className='user-active-time'>
-                  <span>2m Ago</span>
-                </div>
-                <div className='left-side'>
-                  <div className='user-image'>
-                    <img src={userImage5} alt="" />
-                  </div>
-                  <div>
-                    <h6>Jenny Wilson <span className='badge badge-medium'>Medium</span> </h6>
-                    <p>Request For
-                      <img src={bath} alt="" />
-                      Bath</p>
-                    <span>Bed No. 3 | Ward No. 2</span>
-                  </div>
-                </div>
-                <div className='right-side'>
-                  <a href="#"><AiOutlineCheck /></a>
-                </div>
-              </div>
-              <div className='user-box'>
-                <div className='user-active-time'>
-                  <span>2m Ago</span>
-                </div>
-                <div className='left-side'>
-                  <div className='user-image'>
-                    <img src={userImage4} alt="" />
-                  </div>
-                  <div>
-                    <h6>Jenny Wilson <span className='badge badge-medium'>Medium</span></h6>
-                    <p>Request For
-                      <img src={bath} alt="" />
-                      Bath</p>
-                    <span>Bed No. 3 | Ward No. 2</span>
-                  </div>
-                </div>
-                <div className='right-side'>
-                  <a href="#"><AiOutlineCheck /></a>
-                </div>
-              </div>
+                )
+              }) : (
+                <>
+                  <p>No notifications</p>
+                </>
+              )}
             </div>
           </Col>
         </Row>

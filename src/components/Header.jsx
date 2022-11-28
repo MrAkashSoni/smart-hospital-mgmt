@@ -20,7 +20,6 @@ const Header = ({ head, description, sidebarToggle }) => {
   const [isDarkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
-    console.log(isDarkMode)
     if (isDarkMode) document.body.classList.add('dark-mode');
     else document.body.classList.remove('dark-mode');
     localStorage.setItem("dark-mode", isDarkMode)
@@ -55,9 +54,9 @@ const Header = ({ head, description, sidebarToggle }) => {
             />
           </Form>
           <Dropdown>
-            <Dropdown.Toggle variant="success" className='notification-btn' id="dropdown-basic">
+            <Dropdown.Toggle variant="success" className='notification-btn' id="dropdown-basic" disabled={true}>
               <VscBell />
-              <span className='notification-number'>3</span>
+              {/* <span className='notification-number'>3</span> */}
             </Dropdown.Toggle>
 
             <Dropdown.Menu className='notification-dropdown'>

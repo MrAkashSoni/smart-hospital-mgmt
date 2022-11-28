@@ -34,7 +34,6 @@ const ManageWard = () => {
     }
 
     const handleEdit = (index) => {
-        console.log('wards', wards[index]);
         setEditIndex(index);
         setData(wards[index]);
     }

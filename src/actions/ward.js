@@ -30,7 +30,6 @@ export const editWard = (index, payload) => {
         try {
             dispatch({ type: 'REQUEST_EDIT_WARD' });
             const response = await axios.put(ACCESS_SINGLE_WARD.replace("{{id}}", payload.id), { ...payload })
-            console.log('response', response)
             dispatch({ type: 'SUCCESS_EDIT_WARD', payload: { index, ...response?.data } });
         } catch (e) {
             dispatch({ type: 'FAILURE_EDIT_WARD' });

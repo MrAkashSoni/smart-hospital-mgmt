@@ -22,6 +22,8 @@ const CustomToast = () => {
     return (
         <Toast
             show={true}
+            autohide={true}
+            delay={3000}
             bg={variant.Success}
             onClose={toggleShow}
         >
@@ -35,7 +37,7 @@ const CustomToast = () => {
                 <small>11 mins ago</small>
             </Toast.Header>
             <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
-        </Toast>
+        </Toast >
     )
 }
 
