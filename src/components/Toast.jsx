@@ -1,42 +1,18 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import Toast from 'react-bootstrap/Toast';
 
-const variant = {
-    Primary: 'primary',
-    Secondary: 'secondary',
-    Success: 'success',
-    Danger: 'danger',
-    Warning: 'warning',
-    Info: 'info',
-    Light: 'light',
-    Dark: 'dark',
-}
-
-const CustomToast = () => {
-
-    const [show, setShow] = useState(true);
-
-    const toggleShow = () => setShow(!show);
+const CustomToast = ({ show, autohide, variant, onClose, message }) => {
 
     return (
         <Toast
-            show={true}
-            autohide={true}
+            show={show}
+            autohide={autohide}
             delay={3000}
-            bg={variant.Success}
-            onClose={toggleShow}
+            bg={variant}
+            onClose={onClose}
         >
-            <Toast.Header>
-                <img
-                    src="holder.js/20x20?text=%20"
-                    className="rounded me-2"
-                    alt=""
-                />
-                <strong className="me-auto">Bootstrap</strong>
-                <small>11 mins ago</small>
-            </Toast.Header>
-            <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
+            <Toast.Body>{message}</Toast.Body>
         </Toast >
     )
 }

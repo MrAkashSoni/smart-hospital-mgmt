@@ -1,13 +1,19 @@
 const initialState = {
-    user: {}
+    loader: false,
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case "SUCCESS_SIGNIN":
+        case "SHOW_LOADER":
             return {
                 ...state,
-                user: action.payload,
+                loader: true,
+            };
+
+        case "HIDE_LOADER":
+            return {
+                ...state,
+                loader: false,
             };
 
         default:

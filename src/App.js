@@ -1,21 +1,30 @@
+import React from "react";
 import { Container } from "react-bootstrap";
-import { Routes, Route } from "react-router-dom";
-import { BrowserRouter as Router } from 'react-router-dom';
-// Layout
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Layout from "./layout/Layout";
-
 import MainRoutes from "./routes/MainRoutes";
+import { Loader } from "rsuite";
+import "rsuite/dist/rsuite.min.css";
+import { useSelector } from "react-redux";
 
 const App = () => {
 
-  const user = localStorage.getItem('user');
+  const { loader } = useSelector(state => state?.loaderReducer)
 
   return (
-    <Layout>
-      <Container fluid>
-        <MainRoutes />
-      </Container>
-    </Layout>
+    <>
+      {loader && <Loader center />}
+      <Layout>
+        <Container fluid>
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+          />
+          <MainRoutes />
+        </Container>
+      </Layout>
+    </>
   );
 };
 

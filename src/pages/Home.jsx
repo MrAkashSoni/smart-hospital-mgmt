@@ -12,7 +12,6 @@ import userImage4 from "../images/user-image-4.png"
 import userImage5 from "../images/user-image-5.png"
 import bath from "../images/bath.svg"
 import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck"
-import CustomToast from '../components/Toast'
 import Chart from 'react-apexcharts'
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
@@ -24,7 +23,7 @@ const Home = () => {
 
   const [notifications, setNotifications] = useState([]);
 
-  const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'ws://13.234.117.5:8000/ws/'}socket-notification/`);
+  const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'wss://nurster.com/ws/'}socket-notification/`);
 
 
   client.onopen = () => {
@@ -67,7 +66,6 @@ const Home = () => {
               <Col lg={12}>
                 <div className='chart-box mt-0'>
                   <div className='chart-box-header'>
-                    <CustomToast />
                     <h3>Activity Chart</h3>
                     <div>
                       <Form>

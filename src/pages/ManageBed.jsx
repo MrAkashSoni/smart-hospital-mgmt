@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { addBed, getAllBed } from '../actions/bed';
+import { addBed, deleteBed, getAllBed } from '../actions/bed';
 
 const ManageBed = () => {
     const dispatch = useDispatch();
@@ -26,6 +26,10 @@ const ManageBed = () => {
 
     const handleSubmit = () => {
         dispatch(addBed(data));
+    }
+
+    const handleDelete = (id, index) => {
+        dispatch(deleteBed(id, index));
     }
 
     return (
@@ -105,6 +109,7 @@ const ManageBed = () => {
                                             <td>{item.floor}</td>
                                             <td>{item.ward_id}</td>
                                             <td>{item.remote}</td>
+                                            <td style={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDelete(item.id, index)}>Delete</td>
                                         </tr>
                                     ))}
                                 </tbody>

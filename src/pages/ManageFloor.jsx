@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { addFloor, getAllFloor } from '../actions/floor';
+import { addFloor, deleteFloor, getAllFloor } from '../actions/floor';
 
 const ManageFloor = () => {
   const dispatch = useDispatch();
@@ -23,6 +23,10 @@ const ManageFloor = () => {
 
   const handleSubmit = () => {
     dispatch(addFloor(data));
+  }
+
+  const handleDelete = (id, index) => {
+    dispatch(deleteFloor(id, index));
   }
 
   return (
@@ -81,6 +85,7 @@ const ManageFloor = () => {
                     <tr key={index}>
                       <td>{item.id}</td>
                       <td>{item.total_floors}</td>
+                      <td style={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDelete(item.id, index)}>Delete</td>
                     </tr>
                   ))}
                 </tbody>
