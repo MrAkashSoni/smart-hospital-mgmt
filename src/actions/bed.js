@@ -35,8 +35,8 @@ export const deleteBed = (id, index) => {
     return async (dispatch) => {
         try {
             dispatch({ type: 'SHOW_LOADER' });
-            const response = await axios.delete(ACCESS_SINGLE_BED.replace("{{id}}", id))
-            dispatch({ type: 'SUCCESS_DELETE_BEDR', payload: index });
+            await axios.delete(ACCESS_SINGLE_BED.replace("{{id}}", id))
+            dispatch({ type: 'SUCCESS_DELETE_BED', payload: index });
             toast.success("Bed deleted!");
             dispatch({ type: 'HIDE_LOADER' });
         } catch (e) {

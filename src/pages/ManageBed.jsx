@@ -2,22 +2,25 @@ import { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { addBed, deleteBed, getAllBed } from '../actions/bed';
+import { getAllFloor } from '../actions/floor';
+import { getAllWard } from '../actions/ward';
 
 const ManageBed = () => {
     const dispatch = useDispatch();
-    const { loading, beds } = useSelector(state => state?.bedReducer);
+
+    const { beds } = useSelector(state => state?.bedReducer);
+    const { wards } = useSelector(state => state?.wardReducer);
+    const { floors } = useSelector(state => state?.floorReducer);
 
     const [data, setData] = useState({
-        floor: "1",
-        ward_id: "2",
         hospital_id: "1",
         bed_no: "1",
-        bed_desc: "ICU bed 2",
-        remote: "True",
     });
 
     useEffect(() => {
-        dispatch(getAllBed())
+        dispatch(getAllBed());
+        dispatch(getAllWard());
+        dispatch(getAllFloor());
     }, [])
 
     const handleChange = (e) => {
@@ -44,34 +47,27 @@ const ManageBed = () => {
                             <div className='create-box-fields'>
                                 <Form.Select aria-label="Default select example" className='select-floor mb-4' name="floor" onChange={handleChange}>
                                     <option>Select Floor</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    {floors && floors[0]?.total_floors && Array(parseInt(floors[0]?.total_floors)).fill(0).map((_, index) => (
+                                        <option selected={data.floor === index + 1} value={index + 1}>{index + 1}</option>
+                                    ))}
                                 </Form.Select>
                                 <Form.Select aria-label="Default select example" className='select-floor mb-4' name="ward_id" onChange={handleChange}>
                                     <option>Select Ward</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    {wards && wards.length > 0 && wards.map((item, index) => (
+                                        <option selected={data.ward_id === item.id} value={item.id}>{item.ward_name}</option>
+                                    ))}
                                 </Form.Select>
                                 <Form.Group className="mb-4" controlId="">
-                                    <Form.Control type="text" placeholder="Bed Description" name="bed_desc" onChange={handleChange} />
+                                    <Form.Control type="text" placeholder="Bed Description" name="bed_desc" onChange={handleChange} required />
                                 </Form.Group>
                                 <Form.Group className="mb-4" controlId="">
-                                    <Form.Control type="text" placeholder="Remote Serial" name="remote" onChange={handleChange} />
+                                    <Form.Control type="text" placeholder="Remote Serial" name="remote" onChange={handleChange} required={true} />
                                 </Form.Group>
                             </div>
                         </div>
                         <div className='create-box-footer'>
-                            <Button className="btn-blue" onClick={handleSubmit} disabled={loading}>
-                                {loading && <Spinner
-                                    as="span"
-                                    animation="border"
-                                    size="sm"
-                                    role="status"
-                                    aria-hidden="true"
-                                />}
-                                {"  "}Create
+                            <Button className="btn-blue" onClick={handleSubmit}>
+                                Create
                             </Button>
                         </div>
                     </div>
@@ -107,7 +103,7 @@ const ManageBed = () => {
                                             <td>{item.id}</td>
                                             <td>{item.bed_desc}</td>
                                             <td>{item.floor}</td>
-                                            <td>{item.ward_id}</td>
+                                            <td>{wards.find(w => w?.id === item?.ward_id)?.ward_name || "NA"}</td>
                                             <td>{item.remote}</td>
                                             <td style={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDelete(item.id, index)}>Delete</td>
                                         </tr>

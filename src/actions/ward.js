@@ -50,7 +50,7 @@ export const deleteWard = (id, index) => {
     return async (dispatch) => {
         try {
             dispatch({ type: 'SHOW_LOADER' });
-            const response = await axios.delete(ACCESS_SINGLE_WARD.replace("{{id}}", id))
+            await axios.delete(ACCESS_SINGLE_WARD.replace("{{id}}", id))
             dispatch({ type: 'SUCCESS_DELETE_WARD', payload: index });
             toast.success("Ward deleted!");
             dispatch({ type: 'HIDE_LOADER' });

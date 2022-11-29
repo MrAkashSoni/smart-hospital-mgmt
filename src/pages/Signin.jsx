@@ -9,7 +9,7 @@ import Logo1 from "../images/Logo1.svg"
 const Signin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading } = useSelector(state => state?.signInReducer);
+
   const [data, setData] = useState({});
 
   const handleChange = (e) => {
@@ -35,19 +35,12 @@ const Signin = () => {
             <div className='entry-box-bottom'>
               <Form>
                 <Form.Group className="mb-3" controlId="">
-                  <Form.Control type="text" placeholder="Enter Username" name='email' onChange={handleChange} />
+                  <Form.Control type="text" placeholder="Enter Username" name='email' onChange={handleChange} required />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Control type="password" placeholder="Enter Password" name="password" onChange={handleChange} />
+                  <Form.Control type="password" placeholder="Enter Password" name="password" onChange={handleChange} required />
                 </Form.Group>
-                <Button onClick={handleSubmit} disabled={loading}>
-                  {loading && <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />}
+                <Button onClick={handleSubmit}>
                   Sign In
                 </Button>
               </Form>

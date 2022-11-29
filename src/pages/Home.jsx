@@ -1,65 +1,50 @@
-import { Col, Form, Row } from 'react-bootstrap'
-import chart1 from "../images/chart-1.png"
-import cardBath from "../images/card-bath.svg"
-import cardBell from "../images/card-bell.svg"
-import cardWash from "../images/card-wash.svg"
-import cardCloth from "../images/card-cloth.svg"
-
-import userImage1 from "../images/user-image-1.jpg"
-import userImage2 from "../images/user-image-2.png"
-import userImage3 from "../images/user-image-3.png"
-import userImage4 from "../images/user-image-4.png"
-import userImage5 from "../images/user-image-5.png"
-import bath from "../images/bath.svg"
-
+import React, { useEffect, useState } from 'react';
+import Chart from 'react-apexcharts';
+import { Col, Form, Row } from 'react-bootstrap';
 import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck";
 import { GiMedicines } from "@react-icons/all-files/gi/GiMedicines";
 import { AiOutlineCoffee } from "@react-icons/all-files/ai/AiOutlineCoffee";
 import { MdLightbulbOutline } from "@react-icons/all-files/md/MdLightbulbOutline";
+import { RiShirtLine } from "@react-icons/all-files/ri/RiShirtLine";
+import { FaToilet } from "@react-icons/all-files/fa/FaToilet";
+import { IoMdMedical } from "@react-icons/all-files/io/IoMdMedical";
+import chart1 from "../images/chart-1.png"
+import userImage1 from "../images/user-image-1.jpg"
+import { callTypes, getTimeDifference } from '../common';
+import { useDispatch, useSelector } from 'react-redux';
+import { getNotificationHistory } from '../actions/notification';
 
-import Chart from 'react-apexcharts'
-
-import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { useState } from 'react'
-import { callTypes } from '../common'
+const chartData = {
+  series: [10, 20, 30, 25, 10, 15],
+  options: {
+    chart: {
+      type: "donut",
+    },
+    colors: ["#165DFF", "#ce4097", "#50CD89", "#7239EA", "#FFC700", "#fd7e14"],
+    labels: ["Code Blue", "Nurse", "Food", "Washroom", "Medicine", "Light"],
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        legend: {
+          position: "bottom"
+        }
+      }
+    }]
+  },
+};
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const [notificationHistory, setNotificationHistory] = useState([]);
+  const history = useSelector(state => state?.notificationReducer);
 
+  useEffect(() => {
+    dispatch(getNotificationHistory());
+  }, [])
 
-  const [notifications, setNotifications] = useState([]);
-
-  const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'wss://nurster.com/ws/'}socket-notification/`);
-
-
-  client.onopen = () => {
-    console.log('WebSocket Client Connected');
-  };
-  client.onmessage = (response) => {
-    setNotifications([...notifications, JSON.parse(response?.data)?.message])
-  };
-
-  const chartData = {
-    series: [10, 20, 30, 25, 10, 15],
-    options: {
-      chart: {
-        type: "donut",
-      },
-      colors: ["#165DFF", "#ce4097", "#50CD89", "#7239EA", "#FFC700", "#fd7e14"],
-      labels: ["Code Blue", "Nurse", "Food", "Washroom", "Medicine", "Light"],
-      responsive: [{
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-            height: 225,
-          },
-          legend: {
-            position: "bottom"
-          }
-        }
-      }]
-    },
-  };
+  useEffect(() => {
+    setNotificationHistory(history.notificationHistory);
+  }, [history.notificationHistory])
 
   return (
     <>
@@ -92,7 +77,7 @@ const Home = () => {
 
                   </div>
                   <div className='chart-box-body'>
-                    <Chart type='donut' options={chartData.options} series={chartData.series} height={223} />
+                    <Chart type='donut' options={chartData.options} series={chartData.series} />
                   </div>
                 </div>
               </Col>
@@ -101,17 +86,17 @@ const Home = () => {
                   <div className='chart-box-body'>
                     <div className='cards-box'>
                       <div className='card-item'>
-                        <img src={cardBell} alt="" />
+                        <IoMdMedical fill="white" size={50} />
                         <span className='card-number-item'>1</span>
                       </div>
                       <div className='card-item'>
-                        <img src={cardCloth} alt="" />
+                        <RiShirtLine fill="white" size={50} />
                       </div>
                       <div className='card-item'>
                         <AiOutlineCoffee fill="white" size={50} />
                       </div>
                       <div className='card-item'>
-                        <img src={cardWash} alt="" />
+                        <FaToilet fill="white" size={50} />
                       </div>
                       <div className='card-item'>
                         <GiMedicines fill='white' size={50} />
@@ -127,32 +112,35 @@ const Home = () => {
           </Col>
           <Col lg={4} md={6}>
             <div className='user-list'>
-              {notifications.length > 0 ? notifications.map((item, index) => {
+              <h3>Notification History</h3>
+
+              {notificationHistory.length > 0 ? notificationHistory.map((item, index) => {
                 return (
                   <div className='user-box' key={index}>
                     <div className='user-active-time'>
-                      <span>{`{{time}} ago`}</span>
+                      <span>{`${getTimeDifference(new Date(), new Date(item?.time))}m ago`}</span>
                     </div>
                     <div className='left-side'>
                       <div className='user-image'>
                         <img src={userImage1} alt="" />
                       </div>
                       <div>
-                        <h6>{`{{assigneeName}}`} <span className='badge badge-high'>{`{{priority}}`}</span> </h6>
-                        <p>Request For
-                          {(callTypes.find(call => call.event === item.event)).icon}
+                        <h6>{item.card_serial} <span className='badge badge-high'>{`{{priority}}`}</span> </h6>
+                        <p>Request For{" "}
+                          {/* {(callTypes.find(call => call.event === item.event)).icon} */}
                           {(callTypes.find(call => call.event === item.event)).label}</p>
-                        <span>{`Bed No. ${item.bed_id} | Ward No. ${item.ward_id}`}</span>
+                        <span>{`Serial No. ${item.serial}`}</span>
+                        {/* <span>{`Bed No. ${item.serial} | Ward No. ${item.serial}`}</span> */}
                       </div>
                     </div>
-                    <div className='right-side mark-as-done'>
+                    {/* <div className='right-side mark-as-done'>
                       <a href="#"><AiOutlineCheck /></a>
-                    </div>
+                    </div> */}
                   </div>
                 )
               }) : (
                 <>
-                  <p>No notifications</p>
+                  <p>No notification history found</p>
                 </>
               )}
             </div>

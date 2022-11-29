@@ -1,8 +1,7 @@
-import { Badge, Button, Col, Container, Dropdown, Form, Row } from 'react-bootstrap'
-
+import { Button, Dropdown, Form } from 'react-bootstrap'
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { AiOutlineSearch } from "@react-icons/all-files/ai/AiOutlineSearch"
 import { VscBell } from "@react-icons/all-files/vsc/VscBell"
-import { FiChevronDown } from "@react-icons/all-files/fi/FiChevronDown"
 import { FiSettings } from "@react-icons/all-files/fi/FiSettings"
 import { RiLogoutBoxLine } from "@react-icons/all-files/ri/RiLogoutBoxLine"
 import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck"
@@ -10,14 +9,27 @@ import { AiOutlineMenu } from "@react-icons/all-files/ai/AiOutlineMenu"
 
 import userImage from "../images/user-image.jpg"
 import userImage1 from "../images/user-image-1.jpg"
-import bath from "../images/bath.svg"
+
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { callTypes, getTimeDifference } from '../common';
 
-const Header = ({ head, description, sidebarToggle }) => {
+const Header = ({ sidebarToggle }) => {
 
   const navigate = useNavigate();
   const [isDarkMode, setDarkMode] = useState(false)
+  const [notifications, setNotifications] = useState([]);
+
+  const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'wss://nurster.com/ws/'}socket-notification/`);
+
+  client.onopen = () => {
+    console.log('WebSocket Client Connected');
+  };
+
+  client.onmessage = (response) => {
+    console.log('socket response --> ', JSON.parse(response?.data)?.message);
+    setNotifications([...notifications, JSON.parse(response?.data)?.message])
+  };
 
   useEffect(() => {
     if (isDarkMode) document.body.classList.add('dark-mode');
@@ -54,56 +66,50 @@ const Header = ({ head, description, sidebarToggle }) => {
             />
           </Form>
           <Dropdown>
-            <Dropdown.Toggle variant="success" className='notification-btn' id="dropdown-basic" disabled={true}>
+            <Dropdown.Toggle variant="success" className='notification-btn' id="dropdown-basic">
               <VscBell />
-              {/* <span className='notification-number'>3</span> */}
+              {notifications?.length > 0 && <span className='notification-number'>{notifications?.length}</span>}
             </Dropdown.Toggle>
 
             <Dropdown.Menu className='notification-dropdown'>
               <div className='notification-popup'>
                 <div className='notification-header'>
                   <Link to="/">Notifications</Link>
-                  <Link to="/">Mark all as read</Link>
                 </div>
                 <div className='notification-popup-body'>
-                  <div className='user-box'>
-                    <div className='left-side'>
-                      <div className='user-image'>
-                        <img src={userImage1} alt="" />
+                  {notifications?.length > 0 ? notifications?.map((item, index) => {
+                    return (
+                      <div className='user-box' key={index}>
+                        <div className='user-active-time'>
+                          <span>{`${getTimeDifference(new Date(), new Date(item?.time))}m ago`}</span>
+                        </div>
+                        <div className='left-side'>
+                          <div className='user-image'>
+                            <img src={userImage1} alt="" />
+                          </div>
+                          <div>
+                            <h6>{item.card_serial} <span className='badge badge-high'>{`{{priority}}`}</span> </h6>
+                            <p>Request For{" "}
+                              {/* {(callTypes.find(call => call.event === item.event)).icon} */}
+                              {(callTypes.find(call => call.event === item.event))?.label}</p>
+                            <span>{`Serial No. ${item.serial}`}</span>
+                            {/* <span>{`Bed No. ${item.serial} | Ward No. ${item.serial}`}</span> */}
+                          </div>
+                        </div>
+                        {/* <div className='right-side mark-as-done'>
+                        <a href="#"><AiOutlineCheck /></a>
+                      </div> */}
                       </div>
-                      <div>
-                        <h6>Jenny Wilson</h6>
-                        <p>Request For
-                          <img src={bath} alt="" />
-                          Bath</p>
-                        <span>Bed No. 3 | Ward No. 2</span>
-                      </div>
-                    </div>
-                    <div className='right-side'>
-                      <a href="#"><AiOutlineCheck /></a>
-                    </div>
-                  </div>
-                  <div className='user-box'>
-                    <div className='left-side'>
-                      <div className='user-image'>
-                        <img src={userImage1} alt="" />
-                      </div>
-                      <div>
-                        <h6>Jenny Wilson</h6>
-                        <p>Request For
-                          <img src={bath} alt="" />
-                          Bath</p>
-                        <span>Bed No. 3 | Ward No. 2</span>
-                      </div>
-                    </div>
-                    <div className='right-side mark-as-done'>
-                      <a href="#"><AiOutlineCheck /></a>
-                    </div>
-                  </div>
+                    )
+                  }) : (
+                    <span className='d-flex justify-content-center'>
+                      No notification!
+                    </span>
+                  )}
                 </div>
-                <div className='notification-popup-footer'>
+                {/* <div className='notification-popup-footer'>
                   <a href="#">View All</a>
-                </div>
+                </div> */}
               </div>
             </Dropdown.Menu>
           </Dropdown>

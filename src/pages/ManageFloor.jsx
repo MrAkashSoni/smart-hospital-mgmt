@@ -6,7 +6,7 @@ import { addFloor, deleteFloor, getAllFloor } from '../actions/floor';
 const ManageFloor = () => {
   const dispatch = useDispatch();
 
-  const { loading, floors } = useSelector(state => state?.floorReducer);
+  const { floors } = useSelector(state => state?.floorReducer);
 
   const [data, setData] = useState({
     total_floors: "0",
@@ -40,21 +40,22 @@ const ManageFloor = () => {
             <div className='create-box-body'>
               <div className='create-box-fields'>
                 <Form.Group className="mb-3" controlId="">
-                  <Form.Control type="number" placeholder="Total Floors" name='total_floors' value={data.total_floors} onChange={handleChange} />
+                  <Form.Control
+                    type="number"
+                    placeholder="Total Floors"
+                    name='total_floors'
+                    value={data.total_floors}
+                    onChange={handleChange}
+                    disabled={floors.length > 0}
+                  />
                 </Form.Group>
               </div>
             </div>
             <div className='create-box-footer'>
-              <Button className="btn-blue" onClick={handleSubmit} disabled={loading}>
-                {loading && <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />}
-                {"  "}Create
+              <Button className="btn-blue" onClick={handleSubmit} disabled={floors.length > 0}>
+                Create
               </Button>
+              {floors.length > 0 && <label className='text-danger'>Hospital floors already added</label>}
             </div>
           </div>
         </Col>

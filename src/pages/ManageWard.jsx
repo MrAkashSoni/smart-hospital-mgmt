@@ -1,27 +1,23 @@
 import { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAllFloor } from '../actions/floor';
 import { addWard, deleteWard, editWard, getAllWard } from '../actions/ward';
-
-const initialData = {
-    id: null,
-    floor: "1",
-    ward_name: "OPD",
-    ward_desc: "Medium",
-    led: "True",
-    hospital_id: "1"
-}
 
 const ManageWard = () => {
     const dispatch = useDispatch();
 
-    const { loading, wards } = useSelector(state => state?.wardReducer);
+    const { wards } = useSelector(state => state?.wardReducer);
+    const { floors } = useSelector(state => state?.floorReducer);
 
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState({
+        hospital_id: "1",
+    });
     const [editIndex, setEditIndex] = useState(null);
 
     useEffect(() => {
-        dispatch(getAllWard())
+        dispatch(getAllWard());
+        dispatch(getAllFloor());
     }, [])
 
     const handleChange = (e) => {
@@ -53,29 +49,25 @@ const ManageWard = () => {
                         <div className='create-box-body'>
                             <div className='create-box-fields'>
                                 <Form.Group className="mb-3" controlId="">
-                                    <Form.Control type="text" placeholder="Ward Name" name="ward_name" value={data.ward_name} onChange={handleChange} />
+                                    <Form.Control type="text" placeholder="Ward Name" name="ward_name" value={data.ward_name} onChange={handleChange} required />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="">
+                                    <Form.Control type="text" placeholder="Ward Description" name="ward_desc" value={data.ward_desc} onChange={handleChange} required />
                                 </Form.Group>
                                 <Form.Select aria-label="Default select example" className='select-floor mb-4' name="floor" onChange={handleChange}>
                                     <option>Select Floor</option>
-                                    <option selected={data.floor === "1"} value="1">One</option>
-                                    <option selected={data.floor === "2"} value="2">Two</option>
-                                    <option selected={data.floor === "3"} value="3">Three</option>
+                                    {floors && floors[0]?.total_floors && Array(parseInt(floors[0]?.total_floors)).fill(0).map((_, index) => (
+                                        <option selected={data.floor === index + 1} value={index + 1}>{index + 1}</option>
+                                    ))}
                                 </Form.Select>
                                 <Form.Group className="mb-3" controlId="">
-                                    <Form.Control type="text" placeholder="LED Serial" name="led" value={data.led} onChange={handleChange} />
+                                    <Form.Control type="text" placeholder="LED Serial" name="led" value={data.led} onChange={handleChange} required />
                                 </Form.Group>
                             </div>
                         </div>
                         <div className='create-box-footer'>
-                            <Button className="btn-blue" onClick={handleSubmit} disabled={loading}>
-                                {loading && <Spinner
-                                    as="span"
-                                    animation="border"
-                                    size="sm"
-                                    role="status"
-                                    aria-hidden="true"
-                                />}
-                                {"  "}Create
+                            <Button className="btn-blue" onClick={handleSubmit}>
+                                Create
                             </Button>
                         </div>
                     </div>
@@ -100,6 +92,7 @@ const ManageWard = () => {
                                     <tr>
                                         <th>#</th>
                                         <th>Ward Name</th>
+                                        <th>Ward Desc</th>
                                         <th>Floor</th>
                                         <th>LED</th>
                                     </tr>
@@ -109,9 +102,10 @@ const ManageWard = () => {
                                         <tr key={index}>
                                             <td>{item.id}</td>
                                             <td>{item.ward_name}</td>
+                                            <td>{item.ward_desc}</td>
                                             <td>{item.floor}</td>
                                             <td>{item.led}</td>
-                                            <td style={{ color: 'blue', cursor: 'pointer' }} onClick={() => handleEdit(index)}>Edit</td>
+                                            {/* <td style={{ color: 'blue', cursor: 'pointer' }} onClick={() => handleEdit(index)}>Edit</td> */}
                                             <td style={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDelete(item.id, index)}>Delete</td>
                                         </tr>
                                     ))}

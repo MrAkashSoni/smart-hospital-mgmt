@@ -35,7 +35,7 @@ export const deleteFloor = (id, index) => {
     return async (dispatch) => {
         try {
             dispatch({ type: 'SHOW_LOADER' });
-            const response = await axios.delete(ACCESS_SINGLE_FLOOR.replace("{{id}}", id))
+            await axios.delete(ACCESS_SINGLE_FLOOR.replace("{{id}}", id))
             dispatch({ type: 'SUCCESS_DELETE_FLOOR', payload: index });
             toast.success("Floor deleted!");
             dispatch({ type: 'HIDE_LOADER' });
