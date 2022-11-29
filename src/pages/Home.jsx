@@ -12,8 +12,8 @@ import userImage4 from "../images/user-image-4.png"
 import userImage5 from "../images/user-image-5.png"
 import bath from "../images/bath.svg"
 
-import { GiMedicines } from "@react-icons/all-files/gi/GiMedicines";
 import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck";
+import { GiMedicines } from "@react-icons/all-files/gi/GiMedicines";
 import { AiOutlineCoffee } from "@react-icons/all-files/ai/AiOutlineCoffee";
 import { MdLightbulbOutline } from "@react-icons/all-files/md/MdLightbulbOutline";
 
@@ -140,7 +140,7 @@ const Home = () => {
                       <div>
                         <h6>{`{{assigneeName}}`} <span className='badge badge-high'>{`{{priority}}`}</span> </h6>
                         <p>Request For
-                          <img src={bath} alt="" />
+                          {(callTypes.find(call => call.event === item.event)).icon}
                           {(callTypes.find(call => call.event === item.event)).label}</p>
                         <span>{`Bed No. ${item.bed_id} | Ward No. ${item.ward_id}`}</span>
                       </div>
