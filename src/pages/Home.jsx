@@ -11,7 +11,12 @@ import userImage3 from "../images/user-image-3.png"
 import userImage4 from "../images/user-image-4.png"
 import userImage5 from "../images/user-image-5.png"
 import bath from "../images/bath.svg"
-import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck"
+
+import { GiMedicines } from "@react-icons/all-files/gi/GiMedicines";
+import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck";
+import { AiOutlineCoffee } from "@react-icons/all-files/ai/AiOutlineCoffee";
+import { MdLightbulbOutline } from "@react-icons/all-files/md/MdLightbulbOutline";
+
 import Chart from 'react-apexcharts'
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
@@ -55,7 +60,6 @@ const Home = () => {
       }]
     },
   };
-
 
   return (
     <>
@@ -104,16 +108,16 @@ const Home = () => {
                         <img src={cardCloth} alt="" />
                       </div>
                       <div className='card-item'>
-                        <img src={cardBell} alt="" />
+                        <AiOutlineCoffee fill="white" size={50} />
                       </div>
                       <div className='card-item'>
                         <img src={cardWash} alt="" />
                       </div>
                       <div className='card-item'>
-                        <img src={cardBell} alt="" />
+                        <GiMedicines fill='white' size={50} />
                       </div>
                       <div className='card-item'>
-                        <img src={cardBath} alt="" />
+                        <MdLightbulbOutline fill='white' size={50} />
                       </div>
                     </div>
                   </div>
