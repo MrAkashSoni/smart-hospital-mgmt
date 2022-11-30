@@ -27,6 +27,7 @@ const Header = ({ sidebarToggle }) => {
   };
 
   client.onmessage = (response) => {
+    console.log("Socket Raw----->>>>", response)
     console.log('socket response --> ', JSON.parse(response?.data)?.message);
     setNotifications([...notifications, JSON.parse(response?.data)?.message])
   };
@@ -87,7 +88,7 @@ const Header = ({ sidebarToggle }) => {
                             </div>
                             <div>
                               <h6>{item.card_serial}</h6>
-                              <p>Request For
+                              <p>Request For {" "}
                                 {/* <img src={bath} alt="" /> */}
                                 {(callTypes.find(call => call.event === item.event))?.label}
                               </p>
