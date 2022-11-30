@@ -79,27 +79,26 @@ const Header = ({ sidebarToggle }) => {
                 <div className='notification-popup-body'>
                   {notifications?.length > 0 ? notifications?.map((item, index) => {
                     return (
-                      <div className='user-box' key={index}>
-                        <div className='user-active-time'>
-                          <span>{`${getTimeDifference(new Date(), new Date(item?.time))}m ago`}</span>
-                        </div>
-                        <div className='left-side'>
-                          <div className='user-image'>
-                            <img src={userImage1} alt="" />
+                      <>
+                        <div className='user-box' key={index}>
+                          <div className='left-side'>
+                            <div className='user-image'>
+                              <img src={userImage1} alt="" />
+                            </div>
+                            <div>
+                              <h6>{item.card_serial}</h6>
+                              <p>Request For
+                                {/* <img src={bath} alt="" /> */}
+                                {(callTypes.find(call => call.event === item.event))?.label}
+                              </p>
+                              <span>{`Serial No. ${item.serial}`}</span>
+                            </div>
                           </div>
-                          <div>
-                            <h6>{item.card_serial} <span className='badge badge-high'>{`{{priority}}`}</span> </h6>
-                            <p>Request For{" "}
-                              {/* {(callTypes.find(call => call.event === item.event)).icon} */}
-                              {(callTypes.find(call => call.event === item.event))?.label}</p>
-                            <span>{`Serial No. ${item.serial}`}</span>
-                            {/* <span>{`Bed No. ${item.serial} | Ward No. ${item.serial}`}</span> */}
-                          </div>
+                          {/* <div className='right-side'>
+                            <a href="#"><AiOutlineCheck /></a>
+                          </div> */}
                         </div>
-                        {/* <div className='right-side mark-as-done'>
-                        <a href="#"><AiOutlineCheck /></a>
-                      </div> */}
-                      </div>
+                      </>
                     )
                   }) : (
                     <span className='d-flex justify-content-center'>
