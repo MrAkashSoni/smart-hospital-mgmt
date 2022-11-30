@@ -20,7 +20,7 @@ const Header = ({ sidebarToggle }) => {
   const [isDarkMode, setDarkMode] = useState(false)
   const [notifications, setNotifications] = useState([]);
 
-  const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'wss://nurster.com/ws/'}socket-notification/`);
+  const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'wss://nurster.com/ws/ws/'}socket-notification/`);
 
   client.onopen = () => {
     console.log('WebSocket Client Connected');
