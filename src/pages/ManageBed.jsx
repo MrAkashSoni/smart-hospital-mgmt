@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { addBed, deleteBed, getAllBed } from '../actions/bed';
 import { getAllFloor } from '../actions/floor';
 import { getAllWard } from '../actions/ward';
@@ -28,6 +29,10 @@ const ManageBed = () => {
     }
 
     const handleSubmit = () => {
+
+        if (!data.floor || !data.ward_id || !data.bed_desc || !data.remote) {
+            return toast.error("All fields are required.")
+        }
         dispatch(addBed(data));
     }
 
@@ -45,23 +50,59 @@ const ManageBed = () => {
                         </div>
                         <div className='create-box-body'>
                             <div className='create-box-fields'>
-                                <Form.Select aria-label="Default select example" className='select-floor mb-4' name="floor" onChange={handleChange}>
+                                <Form.Select
+                                    aria-label="Default select example"
+                                    className='select-floor mb-4'
+                                    name="floor"
+                                    onChange={handleChange}
+                                >
                                     <option>Select Floor</option>
                                     {floors && floors[0]?.total_floors && Array(parseInt(floors[0]?.total_floors)).fill(0).map((_, index) => (
-                                        <option selected={data.floor === index + 1} value={index + 1}>{index + 1}</option>
+                                        <option
+                                            selected={data.floor === index + 1}
+                                            value={index + 1}
+                                        >
+                                            {index + 1}
+                                        </option>
                                     ))}
                                 </Form.Select>
-                                <Form.Select aria-label="Default select example" className='select-floor mb-4' name="ward_id" onChange={handleChange}>
+                                <Form.Select
+                                    disabled={!data.floor}
+                                    aria-label="Default select example"
+                                    className='select-floor mb-4'
+                                    name="ward_id"
+                                    onChange={handleChange}
+                                >
                                     <option>Select Ward</option>
                                     {wards && wards.length > 0 && wards.map((item, index) => (
-                                        <option selected={data.ward_id === item.id} value={item.id}>{item.ward_name}</option>
+                                        item.floor === data.floor &&
+                                        <option
+                                            selected={data.ward_id === item.id}
+                                            value={item.id}
+                                        >
+                                            {item.ward_name}
+                                        </option>
                                     ))}
                                 </Form.Select>
                                 <Form.Group className="mb-4" controlId="">
-                                    <Form.Control type="text" placeholder="Bed Description" name="bed_desc" onChange={handleChange} required />
+                                    <Form.Control
+                                        disabled={!data.floor || !data.ward_id}
+                                        type="text"
+                                        placeholder="Bed Description"
+                                        name="bed_desc"
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </Form.Group>
                                 <Form.Group className="mb-4" controlId="">
-                                    <Form.Control type="text" placeholder="Remote Serial" name="remote" onChange={handleChange} required={true} />
+                                    <Form.Control
+                                        disabled={!data.floor || !data.ward_id}
+                                        type="text"
+                                        placeholder="Remote Serial"
+                                        name="remote"
+                                        onChange={handleChange}
+                                        required={true}
+                                    />
                                 </Form.Group>
                             </div>
                         </div>

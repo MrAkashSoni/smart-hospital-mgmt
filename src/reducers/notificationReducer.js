@@ -1,5 +1,6 @@
 const initialState = {
-    notificationHistory: []
+    notificationHistory: [],
+    eventCount: {},
 };
 
 export default (state = initialState, action) => {
@@ -9,6 +10,12 @@ export default (state = initialState, action) => {
                 ...state,
                 notificationHistory: action.payload,
             };
+
+        case "SHOW_EVENT_COUNT":
+            return {
+                ...state,
+                eventCount: action.payload,
+            }
 
         default:
             return state;

@@ -36,15 +36,21 @@ const chartData = {
 const Home = () => {
   const dispatch = useDispatch();
   const [notificationHistory, setNotificationHistory] = useState([]);
-  const history = useSelector(state => state?.notificationReducer);
+  const [events, setEvents] = useState({});
+
+  const noti = useSelector(state => state?.notificationReducer);
 
   useEffect(() => {
     dispatch(getNotificationHistory());
   }, [])
 
   useEffect(() => {
-    setNotificationHistory(history.notificationHistory);
-  }, [history.notificationHistory])
+    setNotificationHistory(noti.notificationHistory);
+  }, [noti.notificationHistory])
+
+  useEffect(() => {
+    setEvents(noti.eventCount);
+  }, [noti.eventCount])
 
   return (
     <>
@@ -86,23 +92,28 @@ const Home = () => {
                   <div className='chart-box-body'>
                     <div className='cards-box'>
                       <div className='card-item'>
-                        <IoMdMedical fill="white" size={50} />
-                        <span className='card-number-item'>1</span>
+                        <IoMdMedical fill="white" size={70} />
+                        {events.CODE_BLUE > 0 && <span className='card-number-item'>{events.CODE_BLUE}</span>}
                       </div>
                       <div className='card-item'>
-                        <RiShirtLine fill="white" size={50} />
+                        <RiShirtLine fill="white" size={70} />
+                        {events.NURSE_CALL > 0 && <span className='card-number-item'>{events.NURSE_CALL}</span>}
                       </div>
                       <div className='card-item'>
-                        <AiOutlineCoffee fill="white" size={50} />
+                        <AiOutlineCoffee fill="white" size={70} />
+                        {events.FOOD_CALL > 0 && <span className='card-number-item'>{events.FOOD_CALL}</span>}
                       </div>
                       <div className='card-item'>
-                        <FaToilet fill="white" size={50} />
+                        <FaToilet fill="white" size={70} />
+                        {events.WASHROOM > 0 && <span className='card-number-item'>{events.WASHROOM}</span>}
                       </div>
                       <div className='card-item'>
-                        <GiMedicines fill='white' size={50} />
+                        <GiMedicines fill='white' size={70} />
+                        {events.MEDICINE > 0 && <span className='card-number-item'>{events.MEDICINE}</span>}
                       </div>
                       <div className='card-item'>
-                        <MdLightbulbOutline fill='white' size={50} />
+                        <MdLightbulbOutline fill='white' size={70} />
+                        {events.LIGHT > 0 && <span className='card-number-item'>{events.LIGHT}</span>}
                       </div>
                     </div>
                   </div>
@@ -115,22 +126,24 @@ const Home = () => {
               <h3>Notification History</h3>
 
               {notificationHistory.length > 0 ? notificationHistory.map((item, index) => {
+                const currentEvent = callTypes.find(call => call.event === item.event);
+
                 return (
-                  <div className='user-box' key={index}>
+                  !!item.attendent_by && <div className='user-box' key={index}>
                     <div className='user-active-time'>
-                      <span>{`${getTimeDifference(new Date(), new Date(item?.time))}m ago`}</span>
+                      <span>{`${getTimeDifference(new Date(), new Date(item?.time))}`}</span>
                     </div>
                     <div className='left-side'>
                       <div className='user-image'>
                         <img src={userImage1} alt="" />
                       </div>
                       <div>
-                        <h6>{item.card_serial} <span className='badge badge-high'>{`{{priority}}`}</span> </h6>
+                        <h6>{item.attendent_by} <span className={`badge badge-${currentEvent.priority}`}>{currentEvent.priority.toUpperCase()}</span> </h6>
                         <p>Request For{" "}
-                          {/* {(callTypes.find(call => call.event === item.event)).icon} */}
-                          {(callTypes.find(call => call.event === item.event)).label}</p>
-                        <span>{`Serial No. ${item.serial}`}</span>
-                        {/* <span>{`Bed No. ${item.serial} | Ward No. ${item.serial}`}</span> */}
+                          {/* {currentEvent.icon} */}
+                          {currentEvent.label}</p>
+                        {/* <span>{`Serial No. ${item.serial}`}</span> */}
+                        <span>{`Bed No. ${item.bed} | Ward No. ${item.ward} | Floor No. ${item.floor}`}</span>
                       </div>
                     </div>
                     {/* <div className='right-side mark-as-done'>

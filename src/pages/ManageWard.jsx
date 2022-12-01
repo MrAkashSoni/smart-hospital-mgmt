@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { getAllFloor } from '../actions/floor';
 import { addWard, deleteWard, editWard, getAllWard } from '../actions/ward';
 
@@ -12,6 +13,7 @@ const ManageWard = () => {
 
     const [data, setData] = useState({
         hospital_id: "1",
+        ward_desc: "ward_desc",
     });
     const [editIndex, setEditIndex] = useState(null);
 
@@ -25,6 +27,11 @@ const ManageWard = () => {
     }
 
     const handleSubmit = () => {
+
+        if (!data.floor || !data.ward_name || !data.led) {
+            return toast.error("All fields are required.")
+        }
+
         dispatch(editIndex ? editWard(editIndex, data) : addWard(data));
         setEditIndex(false);
     }
@@ -48,20 +55,38 @@ const ManageWard = () => {
                         </div>
                         <div className='create-box-body'>
                             <div className='create-box-fields'>
-                                <Form.Group className="mb-3" controlId="">
-                                    <Form.Control type="text" placeholder="Ward Name" name="ward_name" value={data.ward_name} onChange={handleChange} required />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="">
-                                    <Form.Control type="text" placeholder="Ward Description" name="ward_desc" value={data.ward_desc} onChange={handleChange} required />
-                                </Form.Group>
-                                <Form.Select aria-label="Default select example" className='select-floor mb-4' name="floor" onChange={handleChange}>
+                                <Form.Select
+                                    aria-label="Default select example"
+                                    className='select-floor mb-4'
+                                    name="floor"
+                                    onChange={handleChange}
+                                >
                                     <option>Select Floor</option>
                                     {floors && floors[0]?.total_floors && Array(parseInt(floors[0]?.total_floors)).fill(0).map((_, index) => (
                                         <option selected={data.floor === index + 1} value={index + 1}>{index + 1}</option>
                                     ))}
                                 </Form.Select>
                                 <Form.Group className="mb-3" controlId="">
-                                    <Form.Control type="text" placeholder="LED Serial" name="led" value={data.led} onChange={handleChange} required />
+                                    <Form.Control
+                                        disabled={!data.floor}
+                                        type="text"
+                                        placeholder="Ward Name"
+                                        name="ward_name"
+                                        value={data.ward_name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="">
+                                    <Form.Control
+                                        disabled={!data.floor}
+                                        type="text"
+                                        placeholder="LED Serial"
+                                        name="led"
+                                        value={data.led}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </Form.Group>
                             </div>
                         </div>

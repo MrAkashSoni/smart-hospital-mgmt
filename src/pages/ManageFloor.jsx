@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Spinner, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { addFloor, deleteFloor, getAllFloor } from '../actions/floor';
 
 const ManageFloor = () => {
@@ -22,6 +23,7 @@ const ManageFloor = () => {
   }
 
   const handleSubmit = () => {
+    if (!data.total_floors) return toast.error("All fields are required.")
     dispatch(addFloor(data));
   }
 

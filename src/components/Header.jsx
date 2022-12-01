@@ -12,25 +12,43 @@ import userImage1 from "../images/user-image-1.jpg"
 
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { callTypes, getTimeDifference } from '../common';
+import { callTypes } from '../common';
+import { useDispatch } from 'react-redux';
+
+const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'wss://nurster.com/ws/ws/'}socket-notification/`);
 
 const Header = ({ sidebarToggle }) => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isDarkMode, setDarkMode] = useState(false)
   const [notifications, setNotifications] = useState([]);
 
-  const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'wss://nurster.com/ws/ws/'}socket-notification/`);
+  useEffect(() => {
+    client.onopen = () => {
+      console.log('WebSocket Client Connected');
+    };
 
-  client.onopen = () => {
-    console.log('WebSocket Client Connected');
-  };
+    client.onmessage = (response) => {
+      const data = {
+        "CODE_BLUE": 0,
+        "NURSE_CALL": 0,
+        "WASHROOM": 0,
+        "MEDICINE": 0,
+        "FOOD_CALL": 0,
+        "LIGHT": 0,
+      };
+      const socketData = JSON.parse(response?.data)?.message;
+      console.log("socketData----->>>>", socketData);
+      setNotifications(socketData);
 
-  client.onmessage = (response) => {
-    console.log("Socket Raw----->>>>", response)
-    console.log('socket response --> ', JSON.parse(response?.data)?.message);
-    setNotifications([...notifications, JSON.parse(response?.data)?.message])
-  };
+      socketData.map((item) => {
+        data[item.event] = data[item.event] + 1;
+      });
+
+      dispatch({ type: "SHOW_EVENT_COUNT", payload: data });
+    };
+  }, [client])
 
   useEffect(() => {
     if (isDarkMode) document.body.classList.add('dark-mode');
@@ -89,10 +107,9 @@ const Header = ({ sidebarToggle }) => {
                             <div>
                               <h6>{item.card_serial}</h6>
                               <p>Request For {" "}
-                                {/* <img src={bath} alt="" /> */}
                                 {(callTypes.find(call => call.event === item.event))?.label}
                               </p>
-                              <span>{`Serial No. ${item.serial}`}</span>
+                              <span>{`Bed No. ${item.bed} | Ward No. ${item.ward} | Floor No. ${item.floor}`}</span>
                             </div>
                           </div>
                           {/* <div className='right-side'>
