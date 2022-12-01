@@ -29,7 +29,7 @@ const Header = ({ sidebarToggle }) => {
   client.onmessage = (response) => {
     console.log("Socket Raw----->>>>", response)
     console.log('socket response --> ', JSON.parse(response?.data)?.message);
-    setNotifications([...notifications, JSON.parse(response?.data)?.message])
+    setNotifications(JSON.parse(response?.data)?.message)
   };
 
   useEffect(() => {
