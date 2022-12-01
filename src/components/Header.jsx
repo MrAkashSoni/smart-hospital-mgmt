@@ -39,7 +39,7 @@ const Header = ({ sidebarToggle }) => {
         "LIGHT": 0,
       };
       const socketData = JSON.parse(response?.data)?.message;
-      console.log("socketData----->>>>", socketData);
+      console.log("socketData --->", socketData);
       setNotifications(socketData);
 
       socketData.map((item) => {
