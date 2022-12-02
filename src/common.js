@@ -17,7 +17,7 @@ export const callTypes = [
 export const getTimeDifference = (dt1, dt2) => {
     let diff = (dt2?.getTime() - dt1?.getTime()) / 1000;
     diff /= 60;
-    const mins = Math?.abs(Math.round(diff / 60));
+    const mins = Math?.abs(Math.round(diff));
     const hours = (mins / 60);
     const rhours = Math.floor(hours);
     const minutes = (hours - rhours) * 60;
