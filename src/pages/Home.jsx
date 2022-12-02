@@ -143,7 +143,7 @@ const Home = () => {
                           {/* {currentEvent.icon} */}
                           {currentEvent.label}</p>
                         {/* <span>{`Serial No. ${item.serial}`}</span> */}
-                        <span>{`Bed No. ${item.bed} | Ward No. ${item.ward} | Floor No. ${item.floor}`}</span>
+                        <span>{`Bed ${item.bed_id} | Ward ${item.ward_name} | Floor ${item.floor}`}</span>
                       </div>
                     </div>
                     {/* <div className='right-side mark-as-done'>

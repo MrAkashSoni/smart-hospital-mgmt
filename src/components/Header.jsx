@@ -105,11 +105,11 @@ const Header = ({ sidebarToggle }) => {
                               <img src={userImage1} alt="" />
                             </div>
                             <div>
-                              <h6>{item.card_serial}</h6>
+                              <h6>{item.attendent_by}</h6>
                               <p>Request For {" "}
                                 {(callTypes.find(call => call.event === item.event))?.label}
                               </p>
-                              <span>{`Bed No. ${item.bed} | Ward No. ${item.ward} | Floor No. ${item.floor}`}</span>
+                              <span>{`Bed ${item.bed_id} | Ward ${item.ward_name} | Floor ${item.floor}`}</span>
                             </div>
                           </div>
                           {/* <div className='right-side'>
