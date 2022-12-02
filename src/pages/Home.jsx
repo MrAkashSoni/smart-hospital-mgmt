@@ -10,6 +10,8 @@ import { FaToilet } from "@react-icons/all-files/fa/FaToilet";
 import { IoMdMedical } from "@react-icons/all-files/io/IoMdMedical";
 import chart1 from "../images/chart-1.png"
 import userImage1 from "../images/user-image-1.jpg"
+import userImage4 from "../images/user-image-4.png";
+
 import { callTypes, getTimeDifference } from '../common';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotificationHistory } from '../actions/notification';
@@ -135,7 +137,7 @@ const Home = () => {
                     </div>
                     <div className='left-side'>
                       <div className='user-image'>
-                        <img src={userImage1} alt="" />
+                        <img src={item.card_serial === "02A20071F61B42" ? userImage4 : userImage1} alt="" />
                       </div>
                       <div>
                         <h6>{item.attendent_by} <span className={`badge badge-${currentEvent.priority}`}>{currentEvent.priority.toUpperCase()}</span> </h6>

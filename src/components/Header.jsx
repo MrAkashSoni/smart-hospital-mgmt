@@ -9,7 +9,7 @@ import { AiOutlineMenu } from "@react-icons/all-files/ai/AiOutlineMenu"
 
 import userImage from "../images/user-image.jpg"
 import userImage1 from "../images/user-image-1.jpg"
-
+import userImage4 from "../images/user-image-4.png";
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { callTypes } from '../common';
@@ -102,7 +102,7 @@ const Header = ({ sidebarToggle }) => {
                         <div className='user-box' key={index}>
                           <div className='left-side'>
                             <div className='user-image'>
-                              <img src={userImage1} alt="" />
+                              <img src={item.card_serial === "02A20071F61B42" ? userImage4 : userImage1} alt="" />
                             </div>
                             <div>
                               <h6>{item.attendent_by}</h6>
