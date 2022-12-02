@@ -109,7 +109,7 @@ const Header = ({ sidebarToggle }) => {
                               <p>Request For {" "}
                                 {(callTypes.find(call => call.event === item.event))?.label}
                               </p>
-                              <span>{`Bed ${item.bed_id} | Ward ${item.ward_name} | Floor ${item.floor}`}</span>
+                              <span>{`Bed ${item.bed_desc} | Ward ${item.ward_name} | Floor ${item.floor}`}</span>
                             </div>
                           </div>
                           {/* <div className='right-side'>
