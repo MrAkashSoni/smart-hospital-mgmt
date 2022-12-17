@@ -16,26 +16,6 @@ import { callTypes, getTimeDifference } from '../common';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotificationHistory } from '../actions/notification';
 
-// const chartData = {
-//   series: [10, 20, 30, 25, 50, 15],
-//   options: {
-//     chart: {
-//       type: "donut",
-//     },
-//     colors: ["#165DFF", "#ce4097", "#50CD89", "#7239EA", "#FFC700", "#fd7e14"],
-//     labels: ["Code Blue", "Nurse", "Food", "Washroom", "Medicine", "Light"],
-//     responsive: [{
-//       breakpoint: 480,
-//       options: {
-//         legend: {
-//           position: "bottom"
-//         }
-//       }
-//     }]
-//   },
-// };
-
-
 const intialAllEvents = {
   "CODE_BLUE": {
     count: 0,
@@ -90,7 +70,6 @@ const getChartData = (series = [], colors = [], labels = []) => {
   }
 }
 
-
 const Home = () => {
   const dispatch = useDispatch();
   const [notificationHistory, setNotificationHistory] = useState([]);
@@ -102,9 +81,6 @@ const Home = () => {
   const [colors, setColors] = useState([])
   const [labels, setLabels] = useState([])
 
-  // series: [10, 20, 30, 25, 50, 15],
-  // colors: ["#165DFF", "#ce4097", "#50CD89", "#7239EA", "#FFC700", "#fd7e14"],
-  // labels: ["Code Blue", "Nurse", "Food", "Washroom", "Medicine", "Light"],
   const [chartData, setChartData] = useState(() => getChartData(series, colors, labels));
 
   const noti = useSelector(state => state?.notificationReducer);
@@ -147,7 +123,6 @@ const Home = () => {
 
   }, [notificationHistory])
 
-
   useEffect(() => {
     setChartData(getChartData(series, colors, labels))
   }, [series, colors, labels])
@@ -184,9 +159,9 @@ const Home = () => {
                         xaxis: { categories: labels }
                       }}
                     />
-                  </div>
-                </div>
-              </Col>
+                  </div >
+                </div >
+              </Col >
               <Col lg={7}>
                 <div className='chart-box'>
                   <div className='chart-box-header'>
@@ -230,8 +205,8 @@ const Home = () => {
                   </div>
                 </div>
               </Col>
-            </Row>
-          </Col>
+            </Row >
+          </Col >
           <Col lg={4} md={6}>
             <div className='user-list'>
               <h3>Notification History</h3>
@@ -269,8 +244,8 @@ const Home = () => {
               )}
             </div>
           </Col>
-        </Row>
-      </div>
+        </Row >
+      </div >
     </>
   )
 }
