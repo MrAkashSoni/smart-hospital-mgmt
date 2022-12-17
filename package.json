@@ -1,0 +1,54 @@
+{
+  "name": "react-bootstrap-starter",
+  "version": "0.5.0",
+  "private": true,
+  "dependencies": {
+    "@react-icons/all-files": "^4.1.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.8.3",
+    "apexcharts": "^3.36.3",
+    "axios": "^1.1.2",
+    "bootstrap": "^5.2.1",
+    "react": "^17.0.2",
+    "react-apexcharts": "^1.4.0",
+    "react-bootstrap": "^2.5.0",
+    "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
+    "react-redux": "^8.0.4",
+    "react-router-bootstrap": "^0.25.0",
+    "react-router-dom": "^6.4.2",
+    "react-scripts": "^5.0.1",
+    "react-toastify": "^9.1.1",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1",
+    "rsuite": "^5.23.0",
+    "v5": "^0.1.2",
+    "web-vitals": "^1.1.1",
+    "websocket": "^1.0.34"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
