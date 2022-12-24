@@ -1,11 +1,10 @@
 import axios from "axios";
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || `https://nurster.com/api/`;
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 const axiosConfig = axios.create({
     baseURL: apiBaseUrl,
     headers: {
         "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
     },
 });
 

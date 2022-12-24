@@ -15,7 +15,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { callTypes } from '../common';
 import { useDispatch } from 'react-redux';
 
-const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL || 'wss://nurster.com/ws/ws/'}socket-notification/`);
+const client = new W3CWebSocket(`${process.env.REACT_APP_SOCKET_BASE_URL}socket-notification/`);
 
 const Header = ({ sidebarToggle }) => {
 
