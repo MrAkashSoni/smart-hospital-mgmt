@@ -86,7 +86,7 @@ const Sidebar = ({ sidebarOpen }) => {
 									</Nav.Link>
 								</Nav.Item>
 							</li>
-							<li className={activeId == 4 ? "active-nav" : ""} onClick={() => setActiveId(4)}>
+							{/* <li className={activeId == 4 ? "active-nav" : ""} onClick={() => setActiveId(4)}>
 								<Nav.Item>
 									<Nav.Link onClick={() => { navigate('/activityreport') }}>
 										<div>
@@ -96,7 +96,7 @@ const Sidebar = ({ sidebarOpen }) => {
 										<span className="right-icon"><BsChevronRight /></span>
 									</Nav.Link>
 								</Nav.Item>
-							</li>
+							</li> */}
 						</ul>
 					</Nav>
 
